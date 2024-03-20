@@ -1,6 +1,7 @@
 resource "aws_security_group" "secg1" {
     name = "terraform-sg"
     description = "Allow ssh and httpd"
+    vpc_id = aws_vpc.vpc1.id
     
     ingress {
         description = "allow ssh"
@@ -8,7 +9,7 @@ resource "aws_security_group" "secg1" {
         to_port = 22
         protocol = "tcp"
         #cidr_blocks = ["0.0.0.0/0"]
-        security_groups = [aws_security_group.secg2.name]
+        security_groups = [aws_security_group.secg2.id]
     }
     ingress {
         description = "allow http"
@@ -31,7 +32,7 @@ resource "aws_security_group" "secg1" {
 resource "aws_security_group" "secg2" {
     name = "terraform-sg-lb"
     description = "Allow ssh and httpd"
-    
+    vpc_id = aws_vpc.vpc1.id
     ingress {
         description = "allow ssh"
         from_port = 22
